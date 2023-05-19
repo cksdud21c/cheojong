@@ -5,7 +5,8 @@ class RegisterModel extends ChangeNotifier {
   String email = "";
   String password = "";
   String passwordConfirm = "";
-
+  String sex="";
+  String old="";
   void setEmail(String email) {
     this.email = email;
     notifyListeners();
@@ -18,6 +19,16 @@ class RegisterModel extends ChangeNotifier {
 
   void setPasswordConfirm(String passwordConfirm) {
     this.passwordConfirm = passwordConfirm;
+    notifyListeners();
+  }
+
+  void setsex(String sex) {
+    this.sex = sex;
+    notifyListeners();
+  }
+
+  void setold(String old) {
+    this.old = old;
     notifyListeners();
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/constants.dart';
-import 'package:untitled/screens/closet_screens/screen_closet_home.dart';
-import 'package:untitled/screens/screen_index.dart';
+import 'package:untitled/screens/closet_screens/screen_ccloset.dart';
+import 'package:untitled/screens/shared_screens/bottombar.dart';
+import 'package:untitled/screens/shared_screens/menu.dart';
+
 class Closet_Page extends StatelessWidget {
   const Closet_Page({
     super.key,
@@ -17,7 +18,21 @@ class Closet_Page extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 6, 67, 117),
         title: Text(title),
       ),
-      body: const HomeScreen(),
+      endDrawer : SafeArea(
+        child:
+        Menu(),
+      ),
+      body: ClosetScreen(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0XFFFD725A),
+        child: Icon(Icons.camera),
+        onPressed: () {
+          Navigator.pushNamed(context, '/camera');
+        },
+      ),
+      floatingActionButtonLocation:
+      FloatingActionButtonLocation.miniEndFloat,
+      bottomNavigationBar: Bottombar(),
     );
   }
 }

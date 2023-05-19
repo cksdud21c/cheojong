@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/models/model_auth.dart';
 import 'package:untitled/models/model_login.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:email_validator/email_validator.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider( //상태변경알리미. 상태 변경이 필요한 Widget에 상태를 전달 하고 변경되었다는 연락을 받으면 UI를 다시 그려주는 역할
         create: (_) => LoginModel(), //데이터를 관리할 State를 생성.
         child: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 6, 67, 117),
+            title: Text('로그인'),
+          ),
           body: Column( //세로방향으로 ..
             children: [
               EmailInput(),
@@ -113,12 +116,13 @@ class LoginButton extends StatelessWidget {
               .loginWithEmail(login.email, login.password)
               .then((loginStatus) {
             if (loginStatus == AuthStatus.loginSuccess) {
+              sendLoginInfoToServer(login.email);
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(SnackBar(
                     content:
                     Text('환영합니다:) ' + authClient.user!.email! + ' ')));
-              Navigator.pushReplacementNamed(context, '/index');
+              Navigator.pushReplacementNamed(context, '/home');
             } else {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
@@ -144,3 +148,17 @@ class RegisterButton extends StatelessWidget {
         ));
   }
 }//회원가입버튼 위젯
+
+
+Future<String> sendLoginInfoToServer(String id) async {
+  var url = Uri.parse('http://35.184.46.56:5000/login');
+  var data = {'ID': id};
+  var body = json.encode(data);
+  var response = await http.post(url, headers: {"Content-Type": "application/json"},
+      body: body);
+  if(response.statusCode == 200) {
+    return response.body;
+  }else{
+    throw Exception('Failed to send Login Information to server');
+  }
+}

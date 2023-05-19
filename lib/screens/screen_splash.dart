@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen>{
     await checkLogin().then((isLogin){//await checkLogin() 후에 .then(isLogin){} . isLogin은 chekLogin()의 반환값.
       if(isLogin){
         //pushReplacementNamed(): 현재화면을 스택에서 제거하고 새로운 화면으로 교체
-        Navigator.of(context).pushReplacementNamed('/index');//로그인 되었으면 index화면으로
+        Navigator.of(context).pushReplacementNamed('/home');//로그인 되었으면 index화면으로
       } else {
         Navigator.of(context).pushReplacementNamed('/login');//로그인 안되었으면 login화면으로
       }
